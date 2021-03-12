@@ -5,42 +5,10 @@ From: genomicpariscentre/deseq2
 Maintainer Chaetognatha
 DESeq2
 
-%environment
-R_VERSION=3.6.1
-export R_VERSION
-R_CONFIG_DIR=/etc/R/
-export R_CONFIG_DIR
-export LC_ALL=C
-export PATH=$PATH
-
-%apprun R
-exec R "$@"
-
 %apprun Rscript
 exec Rscript "$@"
 
-%runscript
-exec R "$@"
-
 %post
-  apt-get update
-  apt-get install -y apt-transport-https apt-utils software-properties-common
-  apt-get install -y add-apt-key
-  # set noninteractive installation
-  export DEBIAN_FRONTEND=noninteractive
-  #install tzdata package
-  apt-get install -y tzdata
-  # set your timezone
-  ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-  dpkg-reconfigure --frontend noninteractive tzdata
-
-  #add CRAN/Ubuntu repo, add key, then refresh
-  apt-get update
-  apt-get install -y wget
-  apt-get install -y r-base r-base-dev
-
-  R --version
-
   # installing packages from cran
   R --slave -e 'install.packages("gplots",repos="https://cran.rstudio.com/")'
   R --slave -e 'install.packages("RColorBrewer",repos="https://cran.rstudio.com/")'
