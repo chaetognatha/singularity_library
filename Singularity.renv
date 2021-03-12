@@ -1,22 +1,13 @@
 Bootstrap: docker
-From: docker://ubuntu:latest
+From: docker://bioconductor/bioconductor_docker
 
 %labels
 Maintainer Chaetognatha
 DESeq2
 
 %post
-  apt-get update
-  apt install --yes dirmngr gnupg apt-transport-https ca-certificates software-properties-common
-  # set noninteractive installation
-  export DEBIAN_FRONTEND=noninteractive
-  #install tzdata package
-  apt-get install -y tzdata
-  # set your timezone
-  ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-  dpkg-reconfigure --frontend noninteractive tzdata
-  apt install --yes r-base
-  apt install -y r-bioc-deseq2/focal
-  # installing packages from cran
+  # installing packages from cran and bioc
+  R --slave -e 'BiocManager::install("DESeq2")'
   R --slave -e 'install.packages("gplots",repos="https://cran.rstudio.com/")'
   R --slave -e 'install.packages("RColorBrewer",repos="https://cran.rstudio.com/")'
+  
