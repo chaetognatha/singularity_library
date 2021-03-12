@@ -3,7 +3,6 @@ From: docker://bioconductor/bioconductor_docker
 
 %labels
 Maintainer Chaetognatha
-DESeq2
 
 %post
   # installing packages from cran and bioc
