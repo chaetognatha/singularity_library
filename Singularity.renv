@@ -1,14 +1,22 @@
 Bootstrap: docker
-From: genomicpariscentre/deseq2
+From: docker://ubuntu:latest
 
 %labels
 Maintainer Chaetognatha
 DESeq2
 
-%apprun Rscript
-exec Rscript "$@"
-
 %post
+  apt-get update
+  apt install --yes dirmngr gnupg apt-transport-https ca-certificates software-properties-common
+  # set noninteractive installation
+  export DEBIAN_FRONTEND=noninteractive
+  #install tzdata package
+  apt-get install -y tzdata
+  # set your timezone
+  ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+  dpkg-reconfigure --frontend noninteractive tzdata
+  apt install --yes r-base
+  apt install -y r-bioc-deseq2/focal
   # installing packages from cran
   R --slave -e 'install.packages("gplots",repos="https://cran.rstudio.com/")'
   R --slave -e 'install.packages("RColorBrewer",repos="https://cran.rstudio.com/")'
