@@ -5,6 +5,7 @@ From: continuumio/miniconda3
 Maintainer Chaetognatha
 FastQC
 Trimmomatic
+#I need to commit
 
 %post
 	opt/conda/bin/conda install -c conda-forge -c bioconda fastqc trimmomatic
